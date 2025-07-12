@@ -6,8 +6,7 @@ cd llama.cpp
 
 # Regular Build
 ```
-cmake -B build
-cmake --build build --config Release -j
+cmake -B build && cmake --build build --config Release -j
 ```
 
 ```
@@ -20,15 +19,29 @@ cmake --build build --config Release -j
 
 # OpenBLAS Build
 ```
-sudo apt-get install libopenblas-dev
+sudo apt-get install libopenblas-dev libopenblas64-openmp-dev libopenblas64-0
 cmake -B build -DGGML_BLAS=ON -DGGML_BLAS_VENDOR=OpenBLAS
 cmake --build build --config Release -j
 ```
 
+```
+| model                          |       size |     params | backend    | threads | fa |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | ------: | -: | --------------: | -------------------: |
+| qwen3moe 30B.A3B Q3_K - Medium |  12.88 GiB |    30.53 B | BLAS       |       8 |  1 |           pp512 |          7.57 ± 0.11 |
+| qwen3moe 30B.A3B Q3_K - Medium |  12.88 GiB |    30.53 B | BLAS       |       8 |  1 |           tg128 |          3.23 ± 0.01 |
+```
+
 # Arm® KleidiAI™ Build
 ```
-cmake -B build -DGGML_CPU_KLEIDIAI=ON
+cmake -B build -DGGML_CPU_KLEIDIAI=ON && \
 cmake --build build --config Release -j
+```
+
+```
+| model                          |       size |     params | backend    | threads | fa |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | ------: | -: | --------------: | -------------------: |
+| qwen3moe 30B.A3B Q3_K - Medium |  12.88 GiB |    30.53 B | BLAS       |       8 |  1 |           pp512 |          7.62 ± 0.14 |
+| qwen3moe 30B.A3B Q3_K - Medium |  12.88 GiB |    30.53 B | BLAS       |       8 |  1 |           tg128 |          3.09 ± 0.00 |
 ```
 
 Verify use of KleidiAI™
